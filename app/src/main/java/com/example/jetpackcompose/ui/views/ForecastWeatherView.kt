@@ -103,29 +103,15 @@ fun ForecastWeatherView(forecast: List<ForecastItem>) {
                     .align(Alignment.CenterHorizontally)
             )
 
-            // Display forecast data
             LazyColumn(
                 modifier = Modifier.fillMaxWidth()
             ) {
-                ////////////////////////////////////
-
-                //TODO Zeige die Wettervorhersage in dieser Liste an (nutze die WeatherCard Komponente)
-                // Der Text unten darf entfernt werden.
-
-                ////////////////////////////////////
+                items(forecast.size) { index ->
+                    WeatherCard(forecastItem = forecast[index])
+                }
             }
 
         }
 
-        Text(
-            text = "TODO: Implement me :)",
-            style = MaterialTheme.typography.headlineLarge.copy(
-                fontSize = 18.sp,
-                color = Color.Black
-            ),
-            modifier = Modifier
-                .padding(bottom = 32.dp)
-                .align(Alignment.CenterHorizontally)
-        )
     }
 }

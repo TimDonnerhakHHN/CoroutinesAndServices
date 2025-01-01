@@ -9,6 +9,7 @@ import androidx.core.app.ActivityCompat
 import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
 import android.app.PendingIntent
+import android.widget.Toast
 import androidx.core.content.ContextCompat
 import com.example.jetpackcompose.MainActivity
 import androidx.datastore.preferences.core.stringPreferencesKey
@@ -37,16 +38,31 @@ class PopupService : Service() {
         createNotificationChannel()
 
 
-        ////////////////////////////////////
-
-        //TODO starte den Service hier
-
-        ////////////////////////////////////
+        startForegroundService()
 
 
         registerUpdateReceiver()
         initializeTimerFromSettings()
     }
+
+    private fun startForegroundService() {
+        val notification = getNotification("Popup Service is running")
+        if (ActivityCompat.checkSelfPermission(
+                this,
+                Manifest.permission.POST_NOTIFICATIONS
+            ) != PackageManager.PERMISSION_GRANTED
+        ) {
+            Toast.makeText(
+                this,
+                "Notification permission is missing. Please enable it in settings.",
+                Toast.LENGTH_LONG
+            ).show()
+
+            return
+        }
+        startForeground(1, notification)
+    }
+
 
     override fun onDestroy() {
         super.onDestroy()
