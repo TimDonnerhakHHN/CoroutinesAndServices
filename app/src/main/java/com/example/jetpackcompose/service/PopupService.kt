@@ -37,7 +37,7 @@ class PopupService : Service() {
         super.onCreate()
         createNotificationChannel()
 
-
+        // Starts the service in the foreground with a notification.
         startForegroundService()
 
 
@@ -45,8 +45,12 @@ class PopupService : Service() {
         initializeTimerFromSettings()
     }
 
+    /**
+     * Starts the service as a foreground service with a notification.
+     */
     private fun startForegroundService() {
         val notification = getNotification("Popup Service is running")
+        // Checks for permission to post notifications.
         if (ActivityCompat.checkSelfPermission(
                 this,
                 Manifest.permission.POST_NOTIFICATIONS
@@ -60,6 +64,7 @@ class PopupService : Service() {
 
             return
         }
+        // Starts the service as a foreground service with the notification.
         startForeground(1, notification)
     }
 

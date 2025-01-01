@@ -18,6 +18,20 @@ import com.example.jetpackcompose.viewmodel.WeatherViewModel
 import com.example.jetpackcompose.ui.components.SearchBarSample
 import com.example.jetpackcompose.ui.components.WeatherCard
 
+/**
+ * A composable function that displays the weather forecast for a city.
+ * It includes a search bar to search for forecasts and displays the fetched forecast data.
+ * The city name and API key are fetched from the DataStore, and if the data is available,
+ * it fetches the forecast data using the [WeatherViewModel].
+ *
+ * The view shows:
+ * - A search bar for users to input a city name.
+ * - A list of weather forecast items for the specified city.
+ * - An error message if there was an issue fetching the data.
+ * - A message prompting the user to set their hometown if no search query is provided.
+ *
+ * @param forecast A list of [ForecastItem] containing the weather forecast data to be displayed.
+ */
 @Composable
 fun ForecastWeatherView(forecast: List<ForecastItem>) {
     val context = LocalContext.current
@@ -40,6 +54,7 @@ fun ForecastWeatherView(forecast: List<ForecastItem>) {
 
     val searchQuery = rememberSaveable { mutableStateOf("") }
 
+    // Search Bar for querying the forecast data
     Box(
         modifier = Modifier
             .fillMaxWidth()
@@ -61,6 +76,7 @@ fun ForecastWeatherView(forecast: List<ForecastItem>) {
         )
     }
 
+    // Display error message if there was an issue fetching the forecast
     errorMessage?.let {
         Text(
             text = it,
@@ -82,6 +98,7 @@ fun ForecastWeatherView(forecast: List<ForecastItem>) {
     ) {
         Spacer(modifier = Modifier.height(24.dp))
 
+        // Display message if no city or forecast data is available
         if (searchQuery.value.isEmpty() && hometown.isEmpty()) {
             Text(
                 text = "Set your hometown in settings",
@@ -103,6 +120,7 @@ fun ForecastWeatherView(forecast: List<ForecastItem>) {
                     .align(Alignment.CenterHorizontally)
             )
 
+            // Display the list of forecast items in a LazyColumn
             LazyColumn(
                 modifier = Modifier.fillMaxWidth()
             ) {
